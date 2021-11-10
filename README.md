@@ -27,6 +27,7 @@ library("TSCS")
 
 
 ## Scripts
+Note that only the script *fulltest.R* is relevant for performing the test itself, as well as *spatial_test.arr*, while the other scripts serve as information on how data was processed.
 The scripts are the following:
 
 <b>filtering.R</b>: A VCF file (generated using snpAD) containing genotypes from fecal samples is parsed into R with bcftools, filtered and turned into a simplified genotype matrix of alleles with an acceptable confidence ("medium quality filtering", see the main paper for details).

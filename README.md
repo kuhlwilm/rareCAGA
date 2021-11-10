@@ -53,6 +53,6 @@ The supporting data in the *data* directory are as follows:
 <b>aprivatT9</b>: R object with informative sites, to be used in the *fulltest.R* test script
 
 <b>derived_sites_bed.tar.gz</b>: Archive with bed files containing the positions of informative sites, needed by *fulltest.R*. <b>This needs to be unpacked before using the script!</b>
-
+\
 
 Sequencing data used for this work is available under the study accession number XXX. Detailed information on processing of raw reads, mapping and genotype calling can be found in the main publication (Fontsere et al., 2022).

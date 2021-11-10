@@ -1,7 +1,8 @@
 # rareCAGA
 ## rare Chimpanzee Allele Geographic Assignment
 
-This respository contains scripts necessary to understand or replicate the geolocalization strategy described in Fontsere et al., Cell Genomics 2022, doi:XX. Any use of the scripts, methods and data in this reposity should be referenced by a citation to this publication.
+This respository contains scripts necessary to understand or replicate the geolocalization strategy described in Fontsere et al., Cell Genomics 2022, doi:XX. \
+Any use of the scripts, methods and data in this reposity should be referenced by a citation to this publication.
 
 ## Requirements
 You need R (3.5.0 worked for me). You need BCFTOOLS (1.6 or higher). For the spatial part, you need GEOS (3.8.1) UDUNITS (2.2.26) PROJ (7.0.1) and GDAL (2.4.2). Also, you need a couple of R libraries to make the spatial inference and plot it to a nice figure. All R packages used are listed below.

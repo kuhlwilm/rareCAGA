@@ -1,7 +1,7 @@
 # rareCAGA
 ## rare Chimpanzee Allele Geographic Assignment
 
-This respository contains scripts necessary to understand or replicate the geolocalization strategy described in Fontsere et al., Cell Genomics 2022, doi:XX.
+This respository contains scripts necessary to understand or replicate the geolocalization strategy described in Fontsere et al., Cell Genomics 2022, doi:XX. Any use of the scripts, methods and data in this reposity should be referenced by a citation to this publication.
 
 ## Requirements
 You need R (3.5.0 worked for me). You need BCFTOOLS (1.6 or higher). For the spatial part, you need GEOS (3.8.1) UDUNITS (2.2.26) PROJ (7.0.1) and GDAL (2.4.2). Also, you need a couple of R libraries to make the spatial inference and plot it to a nice figure. All R packages used are listed below.
@@ -27,7 +27,7 @@ library("TSCS")
 
 
 ## Scripts
-Note that only the script *fulltest.R* is relevant for performing the test itself, as well as *spatial_test.arr*, while the other scripts serve as information on how data was processed.
+Note that only the script *fulltest.R* is relevant for performing the test itself, as well as *spatial_test.arr*, while the other scripts serve as information on how data was processed.\
 The scripts are the following:
 
 <b>filtering.R</b>: A VCF file (generated using snpAD) containing genotypes from fecal samples is parsed into R with bcftools, filtered and turned into a simplified genotype matrix of alleles with an acceptable confidence ("medium quality filtering", see the main paper for details).

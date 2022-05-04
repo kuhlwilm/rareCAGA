@@ -1,7 +1,7 @@
 # rareCAGA
 ## rare Chimpanzee Allele Geographic Assignment
 
-This respository contains scripts necessary to understand or replicate the geolocalization strategy described in Fontsere et al., Cell Genomics 2022, doi:XX. \
+This respository contains scripts necessary to understand or replicate the geolocalization strategy described in "Population dynamics and genetic connectivity in recent chimpanzee history", Fontsere et al., Cell Genomics 2022, https://doi.org/10.1016/j.xgen.2022.100133 \
 Any use of the scripts, methods and data in this reposity should be referenced by a citation to this publication.
 
 ## Requirements

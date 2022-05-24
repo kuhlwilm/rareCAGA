@@ -105,8 +105,9 @@ print(Sys.time())
 ## if successful, generate the full table
 print("full table")
 load(file=paste("results/",labl,sep=""))
-a1<-alovr[[15]]
-for (i in 16:49) {
+y=0; repeat { y=y+1;if (y==49) { print("no data");q() }; if(length(alovr[[y]])==0) { next } else {strt=y;break}  }
+a1<-alovr[[strt]]
+for (i in (strt+1):(length(alovr))) {
   for (j in (1:length(a1))) { a1[[j]]<-a1[[j]]+alovr[[i]][[j]] }
 }
 ovrlai<-list()

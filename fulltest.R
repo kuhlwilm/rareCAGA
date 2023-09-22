@@ -60,7 +60,7 @@ for (yy in yvec) {
       
       # make sure only SNPs are used
       selc<-which(nfo[,2]%in%bps & nfo[,3]%in%bps)
-      nfo2<-nfo[selc,]
+      nfo2<-nfo[selc,,drop=F]
       gtAQ<-gtQ[selc,,drop=F]
       # transform genotypes to simple format
       gtAQ[which(gtAQ=="1/1")]<-2;gtAQ[which(gtAQ=="0/1")]<-1;gtAQ[which(gtAQ=="0/0")]<-0;gtAQ[which(gtAQ=="./.")]<-NA
@@ -69,7 +69,7 @@ for (yy in yvec) {
       ## merge with private dataset
       # if necessary, remove sites that are monomorphic
       asi<-asites[[yy]]
-      ssi<-merge(asi[,-2],nfo2[,-2],by.x=1,by.y=1,all=T)
+      ssi<-merge(asi[,-2],nfo2[,-2,drop=F],by.x=1,by.y=1,all=T)
       remo<-ssi[which(ssi[,3]!="." & unlist(as.character(ssi[,2]))!=ssi[,3]),1]
       privat<-apri[[yy]]
       if (length(remo)>0) { gtAQ<-gtAQ[-which(nfo2[,1]%in%remo),,drop=F];nfo2<-nfo2[-which(nfo2[,1]%in%remo),,drop=F];privat<-privat[-which(asites[[yy]][,1]%in%remo),,drop=F];asi<-asi[-which(asites[[yy]][,1]%in%remo),,drop=F] }
@@ -108,7 +108,7 @@ load(file=paste("results/",labl,sep=""))
 y=0; repeat { y=y+1;if (y==49) { print("no data");q() }; if(length(alovr[[y]])==0) { next } else {strt=y;break}  }
 a1<-alovr[[strt]]
 for (i in (strt+1):(length(alovr))) {
-  for (j in (1:length(a1))) { a1[[j]]<-a1[[j]]+alovr[[i]][[j]] }
+  for (j in (1:length(a1))) {   if(length(alovr[[i]][[j]])>1) { a1[[j]]<-a1[[j]]+alovr[[i]][[j]] } }
 }
 ovrlai<-list()
 for (j in (1:length(a1))) {

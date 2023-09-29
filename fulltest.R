@@ -13,7 +13,7 @@ dir.create("results")
 bps<-c("A","C","G","T")
 options("scipen"=100)
 '%ni%' <- Negate('%in%')
-fifu<-function(input) { if(input!=".") { return(min(as.numeric(unlist(strsplit(input,split=","))[-1]))) } else { NA } }
+fifu<-function(input) { if(input!=".") { return(min(as.numeric(unlist(strsplit(input,split=","))))) } else { NA } }
 yle=seq(0,49000000,1000000)
 load(file="data/spatial_stuff")
 yvec<-c(15:49)

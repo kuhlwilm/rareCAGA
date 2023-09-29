@@ -70,7 +70,7 @@ for (yy in yvec) {
       ## merge with private dataset
       # if necessary, remove sites that are monomorphic
       asi<-asites[[yy]]
-      ssi<-merge(asi[,-2],nfo2[,-2],by.x=1,by.y=1,all=T)
+      ssi<-merge(asi[,-2],nfo2[,-2,drop=F],by.x=1,by.y=1,all=T)
       remo<-ssi[which(ssi[,3]!="." & unlist(as.character(ssi[,2]))!=ssi[,3]),1]
       privat<-apri[[yy]]
       if (length(remo)>0) { gtAQ<-gtAQ[-which(nfo2[,1]%in%remo),,drop=F];nfo2<-nfo2[-which(nfo2[,1]%in%remo),,drop=F];privat<-privat[-which(asites[[yy]][,1]%in%remo),,drop=F];asi<-asi[-which(asites[[yy]][,1]%in%remo),,drop=F] }

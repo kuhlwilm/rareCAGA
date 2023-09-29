@@ -5,6 +5,7 @@ print(ip)
 
 ## input: vcf file (bcftools suitable, "chr21" chromosome name convention)
 infile=ip[1];labl=ip[2]
+
 # if necessary, create results directory
 dir.create("results")
 
@@ -12,7 +13,7 @@ dir.create("results")
 bps<-c("A","C","G","T")
 options("scipen"=100)
 '%ni%' <- Negate('%in%')
-fifu<-function(input) { if(input!=".") { return(min(as.numeric(unlist(strsplit(input,split=","))))) } else { NA } }
+fifu<-function(input) { if(input!=".") { return(min(as.numeric(unlist(strsplit(input,split=","))[-1]))) } else { NA } }
 yle=seq(0,49000000,1000000)
 load(file="data/spatial_stuff")
 yvec<-c(15:49)
@@ -51,7 +52,7 @@ for (yy in yvec) {
       
       # filtering for coverage 2-99 and genotype quality >=20
       GQ<-gt
-      GQ[which(dp<2)]<-"./."
+      GQ[which(dp<1)]<-"./."
       GQ[which(dp>99)]<-"./."
       GQ[which(gq<20)]<-"./."
       # heterozygous sites can be filtered for allele balance if such information is available
@@ -69,7 +70,7 @@ for (yy in yvec) {
       ## merge with private dataset
       # if necessary, remove sites that are monomorphic
       asi<-asites[[yy]]
-      ssi<-merge(asi[,-2],nfo2[,-2,drop=F],by.x=1,by.y=1,all=T)
+      ssi<-merge(asi[,-2],nfo2[,-2],by.x=1,by.y=1,all=T)
       remo<-ssi[which(ssi[,3]!="." & unlist(as.character(ssi[,2]))!=ssi[,3]),1]
       privat<-apri[[yy]]
       if (length(remo)>0) { gtAQ<-gtAQ[-which(nfo2[,1]%in%remo),,drop=F];nfo2<-nfo2[-which(nfo2[,1]%in%remo),,drop=F];privat<-privat[-which(asites[[yy]][,1]%in%remo),,drop=F];asi<-asi[-which(asites[[yy]][,1]%in%remo),,drop=F] }
@@ -108,7 +109,7 @@ load(file=paste("results/",labl,sep=""))
 y=0; repeat { y=y+1;if (y==49) { print("no data");q() }; if(length(alovr[[y]])==0) { next } else {strt=y;break}  }
 a1<-alovr[[strt]]
 for (i in (strt+1):(length(alovr))) {
-  for (j in (1:length(a1))) {   if(length(alovr[[i]][[j]])>1) { a1[[j]]<-a1[[j]]+alovr[[i]][[j]] } }
+  for (j in (1:length(a1))) {   if(length(alovr[[i]][[j]])>0) { a1[[j]]<-a1[[j]]+alovr[[i]][[j]] } }
 }
 ovrlai<-list()
 for (j in (1:length(a1))) {
@@ -138,7 +139,7 @@ library(ggplot2)
 library(rgdal)
 library(mapview)
 library(TSCS)
-Sys.setenv("PROJ_LIB" = "/apps/PROJ/7.0.1/share/proj/")
+#Sys.setenv("PROJ_LIB" = "/apps/PROJ/7.0.1/share/proj/")
 
 # load the data
 load(file="data/spatial_stuff")

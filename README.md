@@ -4,8 +4,28 @@
 This respository contains scripts necessary to understand or replicate the geolocalization strategy described in "Population dynamics and genetic connectivity in recent chimpanzee history", Fontsere et al., Cell Genomics 2022, https://doi.org/10.1016/j.xgen.2022.100133 \
 Any use of the scripts, methods and data in this reposity should be referenced by a citation to this publication.
 
+## How to prepare data
+
+If you have good data (e.g. high coverage genome, or capture of chromosome 21), you may process with standard pipelines for genomic data, i.e. mapping with BWA and genotype calling with GATK. Be aware that you need to include the field DP, AD and GQ in the FORMAT column, if these are missing, you may need to annotate them. In principle, rareCAGA works very well on multi-individual VCF files, and merging the data could speed things up.
+
+In case you have low or unknown coverage of a newly sequenced chimpanzee sample, you may perform mapping with BWA (try mapping quality 30 and remove duplicates), and a simple genotye calling with BCFTOOLS. You need a reference genome (human hg19, either the whole assembly or only chr21), then you can obtain working genotypes like this:
+
+```
+refgenome=/path/to/refgenome.fa
+name=individual_identifier
+
+bcftools mpileup -f ${refgenome} ${name}.bam -r chr21 -a FORMAT/AD,FORMAT/DP -Oz -o ${name}.mpileup.vcf.gz
+bcftools call -f GQ -mv -Oz ${name}.mpileup.vcf.gz -o test/${name}.calls.vcf.gz
+tabix -f ${name}.calls.vcf.gz
+
+```
+
+This should work with the current code of rareCAGA (September 2023).
+
+
 ## Requirements
-You need R (3.5.0 worked for me). You need BCFTOOLS (1.6 or higher). For the spatial part, you need GEOS (3.8.1) UDUNITS (2.2.26) PROJ (7.0.1) and GDAL (2.4.2). Also, you need a couple of R libraries to make the spatial inference and plot it to a nice figure. All R packages used are listed below.
+
+You need R (3.5.0 or 4.2.3 worked for me). You need BCFTOOLS (1.6 or higher). For the spatial part, you need GEOS (3.8.1) UDUNITS (2.2.26) PROJ (7.0.1) and GDAL (2.4.2). Also, you need a couple of R libraries to make the spatial inference and plot it to a nice figure. All R packages used are listed below.
 ```
 library("GenomicRanges")
 library("gstat")
@@ -25,6 +45,8 @@ library("rgdal")
 library("mapview")
 library("TSCS")
 ```
+
+There are outdated packages, the code will give multiple warning messages, but it should still run (as of September 2023). A future version of rareCAGA will implement different solutions.
 
 
 ## Scripts

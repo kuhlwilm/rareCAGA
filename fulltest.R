@@ -108,7 +108,7 @@ print("full table")
 load(file=paste("results/",labl,sep=""))
 y=0; repeat { y=y+1;if (y==49) { print("no data");q() }; if(length(alovr[[y]])==0) { next } else {strt=y;break}  }
 a1<-alovr[[strt]]
-for (i in (strt+1):(length(alovr))) {
+  for (i in (strt+1):(length(alovr))) {
   for (j in (1:length(a1))) {   if(length(alovr[[i]][[j]])>0) { a1[[j]]<-a1[[j]]+alovr[[i]][[j]] } }
 }
 ovrlai<-list()

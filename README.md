@@ -8,17 +8,7 @@ Any use of the scripts, methods and data in this reposity should be referenced b
 
 If you have good data (e.g. high coverage genome, or capture of chromosome 21), you may process with standard pipelines for genomic data, i.e. mapping with BWA and genotype calling with GATK. Be aware that you need to include the field DP, AD and GQ in the FORMAT column, if these are missing, you may need to annotate them. In principle, rareCAGA works very well on multi-individual VCF files, and merging the data could speed things up.
 
-In case you have low or unknown coverage of a newly sequenced chimpanzee sample, you may perform mapping with BWA (try mapping quality 30 and remove duplicates), and a simple genotye calling with BCFTOOLS. You need a reference genome (human hg19, either the whole assembly or only chr21), then you can obtain working genotypes like this:
-
-```
-refgenome=/path/to/refgenome.fa
-name=individual_identifier
-
-bcftools mpileup -f ${refgenome} ${name}.bam -r chr21 -a FORMAT/AD,FORMAT/DP -Oz -o ${name}.mpileup.vcf.gz
-bcftools call -f GQ -mv -Oz ${name}.mpileup.vcf.gz -o test/${name}.calls.vcf.gz
-tabix -f ${name}.calls.vcf.gz
-
-```
+In case you have low or unknown coverage of a newly sequenced chimpanzee sample, you may perform mapping with BWA (if rareCAGA is too noisy, try mapping quality 30 and remove duplicates), and a simple genotye calling with BCFTOOLS. You need a reference genome (human hg19, either the whole assembly or only chr21), then you can obtain working genotypes with bcftools. A new script has been added for preprocessing from raw fastq data (optimized for shallow sequencing data). 
 
 This should work with the current code of rareCAGA (September 2023).
 
@@ -50,7 +40,7 @@ There are outdated packages, the code will give multiple warning messages, but i
 
 
 ## Scripts
-Note that only the script *fulltest.R* is relevant for performing the test itself, as well as *spatial_test.arr*, while the other scripts serve as information on how data was processed.\
+Note that only the script *fulltest.R* is relevant for performing the test itself, as well as *spatial_test.arr*. *preproc.sh* is a proprocessing script from raw fastq data, while the other scripts only serve as information on how data was processed.\
 The scripts are the following:
 
 <b>filtering.R</b>: A VCF file (generated using snpAD) containing genotypes from fecal samples is parsed into R with bcftools, filtered and turned into a simplified genotype matrix of alleles with an acceptable confidence ("medium quality filtering", see the main paper for details).
@@ -62,6 +52,8 @@ The scripts are the following:
 <b>fulltest.R</b>: The actual geolocalization test. A VCF file containing genotypes of one or more test individuals is parsed and filtered, and intersected with the informative rare alleles. Based on the matching rate to each of the 38 sampling locations, kriging is applied for a full spatial distribution across the range, and plotted as output on a map.
 
 <b>spatial_test.arr</b>: Wrapper script to launch the fulltest on a computation cluster.
+
+<b>preproc.sh</b>: Script to pre-process data from fastq to working genotype calls.
 
 
 ## Data

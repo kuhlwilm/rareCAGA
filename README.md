@@ -2,14 +2,13 @@
 ## rare Chimpanzee Allele Geographic Assignment
 
 This respository contains scripts necessary to understand or replicate the geolocalization strategy described in "Population dynamics and genetic connectivity in recent chimpanzee history", Fontsere et al., Cell Genomics 2022, https://doi.org/10.1016/j.xgen.2022.100133 \
-Any use of the scripts, methods and data in this reposity should be referenced by a citation to this publication.
+Any use of the scripts, methods and data in this reposity should be referenced by a citation to this publication. \
+This is an updated version (November 2023), with some debugging and better handling of missing data with very shallow sequencing data (from whole genomes). Also, a new script for data preprocessing and the below guidelines were added.
 
 ## How to prepare data
 
-If you have good data (e.g. high coverage genome, or capture of chromosome 21), you may process with standard pipelines for genomic data, i.e. mapping with BWA and genotype calling with GATK. Be aware that you need to include the field DP, AD and GQ in the FORMAT column, if these are missing, you may need to annotate them. In principle, rareCAGA works very well on multi-individual VCF files, and merging the data could speed things up.
-
-In case you have low or unknown coverage of a newly sequenced chimpanzee sample, you may perform mapping with BWA (if rareCAGA is too noisy, try mapping quality 30 and remove duplicates), and a simple genotye calling with BCFTOOLS. You need a reference genome (human hg19, either the whole assembly or only chr21), then you can obtain working genotypes with bcftools. A new script has been added for preprocessing from raw fastq data (optimized for shallow sequencing data). 
-
+If you have good data (e.g. high coverage genome, or capture of chromosome 21), you may process with standard pipelines for genomic data, i.e. mapping with BWA and genotype calling with GATK. Be aware that you need to include the field DP, AD and GQ in the FORMAT column, if these are missing, you may need to annotate them. In principle, rareCAGA works very well on multi-individual VCF files, and merging the data could speed things up. \
+In case you have low or unknown coverage of a newly sequenced chimpanzee sample, you may perform mapping with BWA (if rareCAGA is too noisy, try mapping quality 30 and remove duplicates), and a simple genotye calling with BCFTOOLS. You need a reference genome (human hg19, either the whole assembly or only chr21), then you can obtain working genotypes with bcftools. A new script has been added for preprocessing from raw fastq data (optimized for shallow sequencing data). \
 This should work with the current code of rareCAGA (September 2023).
 
 

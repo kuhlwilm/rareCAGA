@@ -92,7 +92,7 @@ for (yy in yvec) {
         ovrla[[i]]<-do.call(rbind,ovrla[[i]])
       }
       alovr[[yy]]<-ovrla  
-      save(alovr,file=paste("results/",labl,sep=""))
+      save(alovr,snams,file=paste("results/",labl,sep=""))
       print("done")
 }
 
@@ -119,7 +119,7 @@ ovrlai<-do.call(cbind,ovrlai)
 tmpa<-ovrlai
 tmpa[is.na(tmpa)]<-0
 ## this will save the aggregated table that can be used for downstream analysis
-save(tmpa,ovrlai,a1,file=paste("results/R1_",labl,sep=""))
+save(tmpa,ovrlai,a1,snams,file=paste("results/R1_",labl,sep=""))
 
 ## spatial analysis
 # needs a bunch of R libraries for kriging and creating the maps
@@ -144,6 +144,7 @@ library(TSCS)
 # load the data
 load(file="data/spatial_stuff")
 load(paste("results/R1_",labl,sep=""))
+nnams<-do.call(rbind,strsplit(snams,split="/"));nnams<-nnams[,ncol(nnams)];nnams<-gsub(".bam|.cram","",nnams)
 
 # loop for kriging and map creation per sample
 print("maps")
@@ -186,6 +187,7 @@ for (i in (1:ncol(tmpa))) {
   # collect plots for all samples
   allTs[[i]]<-t1
 }
+names(allTs)<-nnams
 
 
 ## plot 10 samples per page

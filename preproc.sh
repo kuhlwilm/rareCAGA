@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #SBATCH --job-name=prepro
-#SBATCH --cpus-per-task=4
+#SBATCH --cpus-per-task=2
 #SBATCH --ntasks=1
 #SBATCH --mem=20GB
 #SBATCH --time=4:00:00
@@ -27,21 +27,19 @@ name=$(echo $file | tr "\/" "\n" | tail -1 )
 if [[ -f ${name}.fastq.gz ]]; then
 echo "single end"
 zcat ${name}.fastq.gz | cutadapt -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCA -m 30 - > ${name}_cutadapt.fastq.gz
-bwa mem -M ${refgenome} "${name}"_cutadapt.fastq.gz | samtools sort | samtools view -b -F 4 -o ${name}.bam
+bwa mem -t 2 -M ${refgenome} "${name}"_cutadapt.fastq.gz | samtools sort -@ 2 | samtools view -@ 2 -b -F 4 -o ${name}.bam
 fi
 
 if [[ -f ${name}_1.fastq.gz ]]; then
 echo "paired end"
 cutadapt -a TACACTCTTTCCCTACACGACGCTCTTCCGATCT -A GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT -m 30 -o ${name}_cutadapt_1.fastq.gz -p ${name}_cutadapt_2.fastq.gz ${name}_1.fastq.gz ${name}_2.fastq.gz
-bwa mem -M ${refgenome} "${name}"_cutadapt_1.fastq.gz "${name}"_cutadapt_2.fastq.gz | samtools sort | samtools view -b -F 4 -o ${name}.bam
+bwa mem -t 2 -M ${refgenome} "${name}"_cutadapt_1.fastq.gz "${name}"_cutadapt_2.fastq.gz | samtools sort -@ 2 | samtools view -@ 2 -b -F 4 -o ${name}.bam
 fi
 
 # mapping to the hg19 reference genome
 samtools index ${name}.bam
 # simple genotype calling with bcftools mpileup+call
-bcftools mpileup --threads 2 -f ${refgenome} ${name}.bam -r chr21 -a FORMAT/AD,FORMAT/DP -Oz -o ${name}.mpileup.vcf.gz
-bcftools call -f GQ -mv -Oz ${name}.mpileup.vcf.gz -o ${name}.calls.vcf.gz
-tabix -f ${name}.calls.vcf.gz
+bcftools mpileup --threads 2 -f ${refgenome} ${name}.bam -r chr21 -a FORMAT/AD,FORMAT/DP -Ou | bcftools call --threads 2 -f GQ -mv -Oz --write-index -o ${name}.calls.vcf.gz
 # this vcf file can be used as input for rareCAGA
 
 echo "done"

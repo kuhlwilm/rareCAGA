@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #SBATCH --job-name=vcfmerg
-#SBATCH --cpus-per-task=16
+#SBATCH --cpus-per-task=2
 #SBATCH --ntasks=1
 #SBATCH --mem=40GB
 #SBATCH --time=8:00:00
@@ -13,7 +13,6 @@ module load bcftools htslib
 
 vlist=/your/vcflist.txt
 
-bcftools merge -l vlist --threads 16 -o /output/directory/all.chr21.vcf.gz
-tabix -f /output/directory/all.chr21.vcf.gz
+bcftools merge -L vlist --threads 2 -Oz --write-index -o /output/directory/all.chr21.vcf.gz
 
 exit

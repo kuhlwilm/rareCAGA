@@ -1,0 +1,16 @@
+	gita_can	gita_should 	gita_might	sstar	hmmix	ArchIE	Sprime	introUNET	VolcanoFinder	ArchaicSeeker2	admixfrog	IBD_mix	tsinfer_tsdate	Relate	diCal_admix	Dplus	genomeatnn	Ancestry_HMM_s	MalAdapt	bgc	FILET	CRF method	SARGE	ARGweaver_D	SINGER	TRAILS	GhostBuster
+Software package	T	T	NA	T	T	F	T	T	F	T	T	T	T	T	F	F	F	T	F	F	F	F	F	T	T	NA	NA
+defining fragments	T	T	NA	T	T	T	T	T	T	T	T	T	F	F	T	T	T	T	T	F	T	T	T	T	F	NA	NA
+resource efficient	T	T	NA	T	T	F	T	T	F	F	F	T	T	T	F	F	T	F	F	T	T	NA	F	F	T	NA	NA
+flexible framework	T	T	NA	F	F	F	F	F	F	F	F	F	F	F	F	F	F	F	F	F	F	F	F	F	F	F	F
+dem. model independent	T	T	NA	F	T	T	F	T	F	F	T	T	T	T	T	T	F	F	F	F	F	T	F	F	T	F	NA
+source pop independent	T	T	NA	T	T	T	T	T	T	F	F	F	F	F	F	F	F	F	F	F	F	F	F	T	T	F	F
+small sample size (10)	T	T	NA	T	T	F	F	F	T	T	T	F	F	F	T	T	F	T	F	T	T	NA	F	T	F	NA	F
+large sample size (100)	T	T	NA	F	F	T	T	T	F	F	F	T	T	T	T	F	T	F	T	F	F	NA	T	F	T	NA	T
+flexible sample size	F	T	NA	F	F	F	F	F	F	T	T	F	F	F	F	F	F	F	T	T	F	NA	T	T	T	NA	NA
+unphased data 	T	T	NA	T	T	F	F	F	F	T	F	F	F	F	F	F	T	T	F	T	F	F	F	T	F	NA	NA
+0 when no admixture	T	T	NA	F	F	NA	F	NA	F	F	NA	F	F	NA	F	F	F	NA	NA	NA	F	NA	NA	NA	NA	NA	NA
+neutral introgression	T	T	NA	T	T	T	T	T	F	T	T	T	T	T	T	T	F	F	F	T	T	T	T	T	T	T	T
+adaptive introgression	F	T	T	F	F	NA	F	NA	T	F	NA	NA	NA	T	F	F	T	T	T	F	F	NA	F	F	NA	NA	NA
+imputed data	F	T	T	F	F	F	F	F	F	F	T	F	F	T	F	F	F	T	F	NA	F	NA	F	F	F	F	F
+low coverage data	F	F	T	F	F	F	F	F	F	F	T	F	F	F	F	F	F	T	F	F	F	NA	F	F	F	F	F

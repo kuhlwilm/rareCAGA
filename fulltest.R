@@ -131,14 +131,13 @@ library(dplyr)
 library(sf)
 library(tmap)
 library(tmaptools)
-library(maptools)
+#library(maptools)
 library(automap)
 library(spatialEco)
 library(splancs)
 library(ggplot2)
-library(rgdal)
+#library(rgdal)
 library(mapview)
-library(TSCS)
 #Sys.setenv("PROJ_LIB" = "/apps/PROJ/7.0.1/share/proj/")
 
 # load the data
@@ -155,10 +154,10 @@ for (i in (1:ncol(tmpa))) {
   if (sum(subs)==0) { next }
   # mark the best fitting sampling location and create a spatial object for all locations
   mc<-rep("grey40",nrow(tmpa));mc[which(subs==max(subs))]<-"black"
-  P <- SpatialPointsDataFrame(coords= koord3, data= subs,  proj4string = crs)
+  P <- SpatialPointsDataFrame(coords= koord3, data= data.frame(value=unlist(subs),X=koord[,1],Y=koord[,2]))
   P$colr=mc;P@bbox<-t(matrix(ext,2,2))
-  P$X=koord[,1];P$Y=koord[,2]
-  
+
+  X=koord3@coords[,1]; Y=koord3@coords[,2]
   # fit variogram and perform kriging on the grid
   f.1 <- as.formula(unlist(subs) ~ X + Y) 
   var.smpl <- variogram(f.1, P, data=P , cloud = FALSE)
@@ -166,7 +165,8 @@ for (i in (1:ncol(tmpa))) {
   dat.krg <- krige( f.1, P, grd, dat.fit )
   # which is the best spatial fit?
   cetr<-SpatialPoints(dat.krg@coords[which(dat.krg$var1.pred==max(dat.krg$var1.pred)),,drop=F],  proj4string = crs,bbox=koord4@bbox);cetr$colr="red"
-  
+  cetr<-st_as_sf(cetr)
+    
   # rasterize this object
   r <- raster(dat.krg,values=T)
   # put it on the african map
@@ -174,14 +174,16 @@ for (i in (1:ncol(tmpa))) {
   # make sure data is there
   r.m<-readAll(r.m)
   
+  P<-st_as_sf(P)
   # the plot: krige raster, country borders, sampling locations, best fit
-  t1<-tm_shape(r.m) +
-    tm_raster(n=15, palette="RdBu",title="Similarity",midpoint=NA,style="cont") +
+  t1<-
+    tm_shape(r.m) +
+    tm_raster(n=15, palette="brewer.rd_bu",col.legend = tm_legend("Similarity"),midpoint=NA,col.scale = tm_scale_continuous() ) +
     tm_shape(africa) + 
     tm_borders() +
-    tm_shape(P) + tm_dots(size=0.2,col="colr") +
-    tm_legend(legend.outside=TRUE) +
-    tm_layout(title=paste(snams[i],sep="")) +     tm_shape(cetr) + tm_dots(size=0.8,shape=3,col="red") 
+    tm_shape(P) + tm_dots(fill="colr",size=0.2) +
+    tm_legend(position=tm_pos_out("right", "center")) +
+    tm_layout(title=paste(snams[i],sep=""),title.position=tm_pos_out("right", "center")) +     tm_shape(cetr) + tm_dots(size=0.8,shape=3,fill="red") 
 
   # collect plots for all samples
   allTs[[i]]<-t1
@@ -201,6 +203,8 @@ for (l in (1:pm))  {
   print(l)
   print(tmap_arrange(allT3[[l]],ncol=1,nrow=10)) }
 dev.off()
+
+names(allTs)<-snams
 
 save(allT3,allTs,file=paste("results/maptab_",labl,sep=""))
 
